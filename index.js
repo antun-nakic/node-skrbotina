@@ -19,6 +19,7 @@ app.get(
   (req, res, next) => {
     res.write("dobar dan");
     console.log("the response will be sent by the next function ...");
+    next();
   },
   (req, res) => {
     res.end("Hello from B!");
