@@ -3,6 +3,9 @@ import { fetchMovies, auth } from "./middleware/fetchData.js";
 const app = express();
 const port = 3000;
 
+app.set("views", "./views");
+app.set("view engine", "ejs");
+
 app.use("/react", express.static("./frontend/build"));
 const myLogger = function (req, res, next) {
   console.log("LOGGED");
@@ -12,7 +15,10 @@ const myLogger = function (req, res, next) {
 app.use(myLogger);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.render("pocetna", {
+    imeStranice: "Node js vježba",
+    autori: "Trokut polaznici",
+  });
 });
 app.get("/onama", (req, res) => {
   res.send("O nama!");
