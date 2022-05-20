@@ -1,8 +1,15 @@
 import express from "express";
+import { fetchMovies, auth } from "./middleware/fetchData.js";
 const app = express();
 const port = 3000;
 
 app.use("/react", express.static("./frontend/build"));
+const myLogger = function (req, res, next) {
+  console.log("LOGGED");
+  next();
+};
+
+app.use(myLogger);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -25,6 +32,14 @@ app.get(
     res.end("Hello from B!");
   }
 );
+
+app.get("/osoba/:ime", (req, res) => {
+  res.end(`Dobrodošao ${req.params.ime}`);
+});
+
+app.get("/filmovi/:upit", [fetchMovies, auth], (req, res) => {
+  res.send(res.data);
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
